@@ -1,0 +1,104 @@
+<div class="main-container">
+    <div class="card-section">
+        <h2>Nuevo alumno</h2>
+        <p class="subtitle">Administra la información de los alumnos</p>
+        <div class="form-grid">
+            <div class="input-group">
+                <label>Nombre*</label>
+                <input type="text" [(ngModel)]="formData.nombre" placeholder="Ej. Ana">
+            </div>
+            <div class="input-group">
+                <label>Apellido*</label>
+                <input type="text" [(ngModel)]="formData.apellido" placeholder="Ej. López">
+            </div>
+            <div class="input-group">
+                <label>Matrícula*</label>
+                <input type="text" [(ngModel)]="formData.matricula" placeholder="Ej. 20261234">
+            </div>
+            <div class="input-group">
+                <label>Carrera*</label>
+                <input type="text" [(ngModel)]="formData.carrera" placeholder="Ej. Ingeniería en Software">
+            </div>
+            <div class="input-group">
+                <label>Cuatrimestre*</label>
+                <input type="text" [(ngModel)]="formData.cuatrimestre" placeholder="Ej. 4">
+            </div>                 
+            <div class="input-group">
+                <label>Correo electrónico*</label>
+                <input type="email" [(ngModel)]="formData.correo" placeholder="correo@ejemplo.com">
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="btn-guardar" (click)="guardarAlumno()" [disabled]="guardando">
+                {{ guardando ? 'Procesando...' : (editando ? 'Actualizar' : 'Guardar') }}
+            </button>
+            <button class="btn-limpiar" (click)="resetForm()">Limpiar</button>
+        </div>
+        <p *ngIf="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</p>
+    </div>
+    <div class="main-container">
+        <div class="card-section">
+            <h2>Alumnos registrados</h2>
+            <p class="subtitle">Datos obtenidos desde la base de datos</p>
+            <div class="table-container">
+                <table *ngIf="alumnos.length > 0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Matrícula</th>
+                            <th>Carrera</th>
+                            <th>Cuatrimestre</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of alumnos">
+                            <td>{{ a.id }}</td>
+                            <td>{{ a.nombre }}</td>
+                            <td>{{ a.apellido }}</td>
+                            <td>{{ a.matricula }}</td>
+                            <td>{{ a.carrera }}</td>
+                            <td>{{ a.cuatrimestre }}</td>
+                            <td>{{ a.correo }}</td>
+                            <td class="action-column">
+                                <button class="icon-btn btn-ia" (click)="pedirResumenIA(a)" [disabled]="cargandoIA" title="Generar Reporte con Gemini IA">
+                                    <mat-icon>auto_awesome</mat-icon>
+                                </button>
+                                
+                                <button class="icon-btn btn-edit" (click)="seleccionarAlumno(a)" title="Editar Alumno">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                
+                                <button class="icon-btn btn-delete" (click)="eliminarAlumno(a.id)" title="Eliminar Alumno">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="cargandoIA" class="loading-ia-p">
+                    Procesando reporte con Gemini IA... por favor espera.
+                </div>
+                <p *ngIf="alumnos.length === 0 && !loading && !cargandoIA">No hay alumnos en la base de datos.</p>
+            </div>
+        </div>
+        <div class="modal-backdrop" *ngIf="mostrarModalIA" (click)="cerrarModalIA()">
+        <div class="modal-content-ia" (click)="$event.stopPropagation()">
+            <div class="modal-header-ia">
+                <div class="header-text">
+                    <h3>Resumen IA</h3>
+                    <p class="subtitle-modal">{{ alumnoNombreReporte }}</p>
+                </div>
+                <button class="close-btn" (click)="cerrarModalIA()">×</button>
+            </div>
+            <div class="modal-body-ia">
+                <div class="report-text-container" [innerHTML]="reporteIA"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

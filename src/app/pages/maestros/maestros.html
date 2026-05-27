@@ -1,0 +1,81 @@
+<div class="main-container">
+  
+  <div class="card-section">
+    <h2>Nuevo maestro</h2>
+    <p class="subtitle">Administra la información de los maestros</p>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label>Nombre*</label>
+        <input type="text" [(ngModel)]="formData.nombre" placeholder="Ej. Juan">
+      </div>
+
+      <div class="input-group">
+        <label>Apellido*</label>
+        <input type="text" [(ngModel)]="formData.apellido" placeholder="Ej. Pérez">
+      </div>
+
+      <div class="input-group">
+        <label>Número de empleado*</label>
+        <input type="text" [(ngModel)]="formData.numeroEmpleado" placeholder="Ej. 1045">
+      </div>
+
+      <div class="input-group">
+        <label>Departamento*</label>
+        <input type="text" [(ngModel)]="formData.departamento" placeholder="Ej. Sistemas">
+      </div>
+
+      <div class="input-group">
+        <label>Correo electrónico*</label>
+        <input type="email" [(ngModel)]="formData.correo" placeholder="correo@ejemplo.com">
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-guardar" (click)="guardarMaestro()" [disabled]="guardando">
+        {{ guardando ? 'Procesando...' : (editando ? 'Actualizar' : 'Guardar') }}
+      </button>
+      <button class="btn-limpiar" (click)="resetForm()">Limpiar</button>
+    </div>
+    
+    <p *ngIf="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</p>
+  </div>
+
+  <div class="card-section">
+    <h2>Maestros registrados</h2>
+    <p class="subtitle">Datos obtenidos desde la base de datos</p>
+    <div class="table-container">
+      <table *ngIf="maestros.length > 0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>No. Empleado</th>
+            <th>Departamento</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let m of maestros">
+            <td>{{ m.nombre }}</td>
+            <td>{{ m.apellido }}</td>
+            <td>{{ m.numeroEmpleado }}</td>
+            <td>{{ m.departamento }}</td>
+            <td>{{ m.correo }}</td>
+            <td class="action-column">
+              <button class="icon-btn btn-edit" (click)="seleccionarMaestro(m)" title="Editar Maestro">
+                <mat-icon>edit</mat-icon>
+              </button>
+              
+              <button class="icon-btn btn-delete" (click)="eliminarMaestro(m.id)" title="Eliminar Maestro">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="maestros.length === 0 && !loading">No hay maestros en la base de datos.</p>
+    </div>
+  </div>
+</div>

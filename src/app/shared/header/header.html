@@ -1,0 +1,18 @@
+<mat-toolbar>
+    <span>Sistema</span>
+    <span class="spacer"></span>
+    <button mat-button class="avatar" [matMenuTriggerFor]="userMenu">
+        <p>{{ auth.currentUser()?.name | slice:0:2 }}</p>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled>
+        <mat-icon>person</mat-icon>
+        {{ auth.currentUser()?.name }}
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </mat-menu>
+</mat-toolbar>
+

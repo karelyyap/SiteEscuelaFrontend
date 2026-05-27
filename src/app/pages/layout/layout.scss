@@ -1,0 +1,30 @@
+.layout {
+    display: grid;
+    height: 100vh;
+
+    grid-template-areas:
+    "header header"
+    "sidebar content"
+    "footer footer";
+
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 60px 1fr 40px;
+}
+
+.header{
+    grid-area: header;
+    background-color: red;
+}
+.sidebar{
+    grid-area: sidebar;
+    background-color: blue;
+}
+.content{
+    grid-area: content;
+    overflow: auto;
+    background-color: yellow;
+}
+.footer{
+    grid-area: footer;
+    background-color: pink;
+}

@@ -1,0 +1,64 @@
+<div class="main-container">
+  
+  <div class="card-section">
+    <h2>Nuevo usuario</h2>
+    <p class="subtitle">Administra la información de los usuarios</p>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label>Nombre*</label>
+        <input type="text" [(ngModel)]="formData.name" placeholder="Ej. Juan Pérez">
+      </div>
+
+      <div class="input-group">
+        <label>Correo electrónico*</label>
+        <input type="email" [(ngModel)]="formData.email" placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña*</label>
+        <input type="password" [(ngModel)]="formData.password" placeholder="Mínimo 6 caracteres">
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-guardar" (click)="guardarUsuario()" [disabled]="guardando">
+        {{ guardando ? 'Procesando...' : (editando ? 'Actualizar' : 'Guardar') }}
+      </button>
+      <button class="btn-limpiar" (click)="resetForm()">Limpiar</button>
+    </div>
+    
+    <p *ngIf="errorMessage" style="color: red; margin-top: 10px;">{{ errorMessage }}</p>
+  </div>
+
+  <div class="card-section">
+    <h2>Usuarios registrados</h2>
+    <div class="table-container">
+      <table *ngIf="usuarios.length > 0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td class="action-column">
+              <button class="icon-btn btn-edit" (click)="seleccionarUsuario(u)" title="Editar usuario">
+                <mat-icon>edit</mat-icon>
+              </button>
+              
+              <button class="icon-btn btn-delete" (click)="eliminarUsuario(u.id)" title="Eliminar usuario">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="usuarios.length === 0 && !loading">No hay usuarios en la base de datos.</p>
+    </div>
+  </div>
+</div>
